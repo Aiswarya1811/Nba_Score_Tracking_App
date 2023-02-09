@@ -1,0 +1,42 @@
+<div #wrapper class="content-wrapper">
+  <div class="container">
+      <section class="content-header">
+          <h3>
+              NBA Score Tracking App
+          </h3>
+      </section>
+
+      <section class="content">
+          <div *ngIf="teamResult">
+              <div class="col-sm-6">
+                  <div class="card card-bottom">
+                      <div class="card-title">
+                          <h5 class="card-title">{{teamResult.teamName}}[{{teamResult.teamCode}}]</h5>
+                      </div>
+                      <p class="conference">{{teamResult.conference}}ern conference</p>
+                      <div class="row g-0">
+                          <div class="col-md-8">
+                              <div class="card-body">
+                                  <p>Result of past 12 days:</p><br>
+                                  <div class="row">
+                                      <div *ngFor="let each of teamResult.result">
+                                          <ul class="list-group list-group-horizontal">
+                                              <li class="list-group-item">
+                                                  {{each.home_team.abbreviation}} {{each.home_team_score}} - {{each.visitor_team.abbreviation}} {{each.visitor_team_score}}
+                                              </li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="d-grid gap-2 col-6 mx-auto">
+                          <button id="backbtn" type="submit" style="margin-bottom: 10px;" class="btn btn-success" (click)="navigate()">
+                              << Back to all team stats </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </div>
+</div>

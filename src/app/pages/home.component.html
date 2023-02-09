@@ -1,0 +1,118 @@
+<div #wrapper class="content-wrapper">
+  <div class="container">
+    <section class="content-header">
+      <h3>NBA Score Tracking App</h3>
+      <div class="row team-list">
+        <div *ngIf="teamOptions && teamOptions.length">
+          <form class="row g-3">
+            <div class="col-auto">
+              <select
+                id="teamInput"
+                [(ngModel)]="teamOptions"
+                class="form-control"
+                (change)="getTeamName($event)"
+              >
+                <option *ngFor="let c of teamOptions" [value]="c.id">
+                  {{ c.full_name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <button
+                id="trackBtn"
+                type="submit"
+                class="btn btn-primary mb-3"
+                [disabled]="adding"
+                (click)="getTeamDetails()"
+              >
+                Track team
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <div *ngIf="teamDetailsList && teamDetailsList.length">
+        <div *ngFor="let item of teamDetailsList; let idx = index">
+          <div class="col-sm-6">
+            <div class="card card-bottom">
+              <div class="card-title">
+                <h5 class="card-title">
+                  {{ item.teamName }}[{{ item.teamCode }}]
+                </h5>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button
+                    type="submit"
+                    id="remove{{ item.teamCode }}"
+                    class="btn remove me-md-2"
+                    (click)="deleteTeam(item)"
+                    [disabled]="adding"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+              <p class="conference">{{ item.conference }}ern conference</p>
+              <div class="row g-0">
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <p>Result of past 12 days:</p>
+                    <br />
+                    <div class="row">
+                      <div *ngFor="let each of item.result">
+                        <ul class="list-group list-group-horizontal">
+                          <li
+                            *ngIf="
+                              each.home_team_score > each.visitor_team_score
+                            "
+                            class="list-group-item"
+                          >
+                            <span class="badge bg-success rounded-pill">W</span
+                            ><br />
+                          </li>
+                          <li
+                            *ngIf="
+                              each.home_team_score < each.visitor_team_score
+                            "
+                            class="list-group-item"
+                          >
+                            <span class="badge bg-danger rounded-pill">L</span
+                            ><br />
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <span>Avg pts scored: {{ item.avgPointScored }}</span
+                    ><br />
+                    <span>Avg pts scored: {{ item.avgPointsConceded }}</span
+                    ><br />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <img
+                    src="{{ item.teamURL }}"
+                    class="img-fluid rounded-start"
+                  />
+                </div>
+              </div>
+              <div class="d-grid gap-2 col-6 mx-auto">
+                <button
+                  id="sentimateBtn"
+                  type="submit"
+                  style="margin-bottom: 10px;"
+                  class="btn btn-success"
+                  [disabled]="adding"
+                  (click)="navigate(item)"
+                >
+                  See game results >>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
